@@ -17,6 +17,7 @@ public:
 
     void draw();
     const Cairo::RefPtr<Cairo::ImageSurface>& get_surface() const;
+    void set_surface(Cairo::RefPtr<Cairo::ImageSurface> nsurf);
 
     bool process_event(const sushi::event& event) {
         return root.process_event(event);

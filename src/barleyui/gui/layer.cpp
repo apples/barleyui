@@ -22,7 +22,13 @@ void Layer::draw() {
 }
 
 const Cairo::RefPtr<Cairo::ImageSurface>& Layer::get_surface() const {
+    surface->flush();
     return surface;
+}
+
+void Layer::set_surface(Cairo::RefPtr<Cairo::ImageSurface> nsurf) {
+    surface = std::move(nsurf);
+    cairo = Cairo::Context::create(surface);
 }
 
 } // namespace barleyui
