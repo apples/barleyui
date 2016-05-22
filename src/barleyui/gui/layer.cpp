@@ -2,33 +2,18 @@
 
 namespace barleyui {
 
-Layer::Layer(int width, int height) :
-    surface(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, width, height)),
-    cairo(Cairo::Context::create(surface)),
-    root(null_widget)
-{}
-
 void Layer::set_root(AnyWidget widget) {
     root = std::move(widget);
 }
 
-void Layer::draw() {
+void Layer::draw(Cairo::RefPtr<Cairo::Context>& cairo) {
     cairo->save();
     cairo->set_operator(Cairo::OPERATOR_CLEAR);
     cairo->paint();
     cairo->restore();
+    auto surface = Cairo::RefPtr<Cairo::ImageSurface>::cast_static(cairo->get_target());
     root.set_bounds({0, 0}, {surface->get_width(), surface->get_height()});
     root.draw(cairo);
-}
-
-const Cairo::RefPtr<Cairo::ImageSurface>& Layer::get_surface() const {
-    surface->flush();
-    return surface;
-}
-
-void Layer::set_surface(Cairo::RefPtr<Cairo::ImageSurface> nsurf) {
-    surface = std::move(nsurf);
-    cairo = Cairo::Context::create(surface);
 }
 
 } // namespace barleyui

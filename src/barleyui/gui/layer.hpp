@@ -6,18 +6,12 @@
 namespace barleyui {
 
 class Layer {
-    Cairo::RefPtr<Cairo::ImageSurface> surface;
-    Cairo::RefPtr<Cairo::Context> cairo;
-    AnyWidget root;
+    AnyWidget root = null_widget;
 
 public:
-    Layer(int width, int height);
-
     void set_root(AnyWidget widget);
 
-    void draw();
-    const Cairo::RefPtr<Cairo::ImageSurface>& get_surface() const;
-    void set_surface(Cairo::RefPtr<Cairo::ImageSurface> nsurf);
+    void draw(Cairo::RefPtr<Cairo::Context>& cairo);
 
     bool process_event(const sushi::event& event) {
         return root.process_event(event);
